@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:lufthansa/presentation/homepage/widgets/booking_details_form.dart';
+import 'package:lufthansa/presentation/homepage/widgets/custom_sliver_appbar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: <Widget>[
+          const CustomSliverAppBar(),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              <Widget>[
+                const BookingDetailsForm(),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

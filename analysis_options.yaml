@@ -6,7 +6,6 @@ linter:
   rules:
     avoid_print: true  
     prefer_single_quotes: true  
-    prefer_single_quotes: true
     always_declare_return_types: true
     argument_type_not_assignable: true
     prefer_const_declarations: true
@@ -29,7 +28,6 @@ linter:
     void_checks: true
     join_return_with_assignment: true
     unnecessary_await_in_return: true
-    avoid_print: true
     invalid_assignment: true
     unnecessary_raw_strings: true
     parameter_assignments: true
