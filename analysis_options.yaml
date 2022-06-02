@@ -36,7 +36,7 @@ linter:
     unnecessary_string_escapes: true
     non_bool_condition: true
     hash_and_equals: true
-    non_constant_identifier_names: true
+    non_constant_identifier_names: false
     prefer_interpolation_to_compose_strings: true
     prefer_if_elements_to_conditional_expressions: true
     always_specify_types: true
