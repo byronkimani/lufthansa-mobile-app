@@ -9,7 +9,6 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final String token = context.read<AuthTokenCubit>().updateAuthToken();
     return Scaffold(
       body: Container(
         width: double.infinity,

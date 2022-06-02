@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lufthansa/business_logic/cubits/arrival_location_cubit.dart';
 import 'package:lufthansa/data/constants/asset_strings.dart';
+import 'package:lufthansa/presentation/core/loading_indicator.dart';
 import 'package:lufthansa/presentation/departure/widgets/search_results_widget.dart';
 
 import '../../core/custom_textfield.dart';
@@ -64,7 +65,24 @@ class _ArrivalPageState extends State<ArrivalPage> {
               const SizedBox(height: 20),
               BlocBuilder<ArrivalLocationCubit, ArrivalLocationState>(
                 builder: (BuildContext context, ArrivalLocationState state) {
-                  return SearchResultsWidget(locationList: state.locationsList);
+                  if (!state.isLoading) {
+                    if (state.noLocationsFound) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: const Text(
+                          'No data was found. Please try another city name',
+                        ),
+                      );
+                    }
+                    return SearchResultsWidget(
+                      locationList: state.locationsList,
+                    );
+                  } else {
+                    return const SizedBox(
+                      height: 200,
+                      child: LoadingIndicator(),
+                    );
+                  }
                 },
               )
             ],

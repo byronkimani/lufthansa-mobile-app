@@ -51,7 +51,7 @@ class SearchResultsWidget extends StatelessWidget {
       }
     } else {
       widgetList.add(
-        const Text('No data was found please try again using another city'),
+        const Text('Please enter a city name and tap on one from the list'),
       );
     }
     return SizedBox(

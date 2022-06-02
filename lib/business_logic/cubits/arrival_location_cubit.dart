@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:lufthansa/business_logic/data_api_client/data_api_client.dart';
 import 'package:lufthansa/data/models/location.dart';
 
-part  'arrival_location_state.dart';
+part 'arrival_location_state.dart';
 
 class ArrivalLocationCubit extends Cubit<ArrivalLocationState> {
   ArrivalLocationCubit()
@@ -12,12 +12,18 @@ class ArrivalLocationCubit extends Cubit<ArrivalLocationState> {
           const ArrivalLocationState(
             selectedLocation: Location(airport: '', code: '', country: ''),
             locationsList: <Location>[],
+            isLoading: false,
+            noLocationsFound: false,
           ),
         );
 
   Future<void> updateDepartureLocation({required String cityName}) async {
+    emit(state.copyWith(isLoading: true));
     final List<Location> locationsList =
         await DataApiClient().SearchByCityName(query: cityName);
-    emit(state.copyWith(locationsList: locationsList));
+    if (locationsList.isEmpty) {
+      emit(state.copyWith(noLocationsFound: true));
+    }
+    emit(state.copyWith(locationsList: locationsList, isLoading: false));
   }
 }
