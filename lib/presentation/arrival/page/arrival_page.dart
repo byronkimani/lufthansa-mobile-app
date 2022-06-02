@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:lufthansa/business_logic/cubits/departure_location_cubit.dart';
+import 'package:lufthansa/business_logic/cubits/arrival_location_cubit.dart';
 import 'package:lufthansa/data/constants/asset_strings.dart';
-import 'package:lufthansa/presentation/core/custom_textfield.dart';
 import 'package:lufthansa/presentation/departure/widgets/search_results_widget.dart';
 
-class DeparturePage extends StatefulWidget {
-  const DeparturePage({Key? key}) : super(key: key);
+import '../../core/custom_textfield.dart';
+
+class ArrivalPage extends StatefulWidget {
+  const ArrivalPage({Key? key}) : super(key: key);
 
   @override
-  State<DeparturePage> createState() => _DeparturePageState();
+  State<ArrivalPage> createState() => _ArrivalPageState();
 }
 
-class _DeparturePageState extends State<DeparturePage> {
+class _ArrivalPageState extends State<ArrivalPage> {
   TextEditingController? searchController;
   @override
   void initState() {
@@ -32,11 +33,11 @@ class _DeparturePageState extends State<DeparturePage> {
             children: <Widget>[
               SizedBox(
                 height: MediaQuery.of(context).size.height / 3,
-                child: SvgPicture.asset(departureImage),
+                child: SvgPicture.asset(arrivalImage),
               ),
               const SizedBox(height: 20),
               const Text(
-                'What is your preferred departure location?',
+                'What is your preferred departure destination?',
                 style: TextStyle(fontSize: 18),
                 textAlign: TextAlign.center,
               ),
@@ -46,7 +47,7 @@ class _DeparturePageState extends State<DeparturePage> {
                   icon: const Icon(Icons.search),
                   onPressed: () async {
                     await context
-                        .read<DepartureLocationCubit>()
+                        .read<ArrivalLocationCubit>()
                         .updateDepartureLocation(
                           cityName: searchController!.text,
                         );
@@ -55,14 +56,14 @@ class _DeparturePageState extends State<DeparturePage> {
                 hintText: 'Enter a city name',
                 onFieldSubmitted: (String query) async {
                   await context
-                      .read<DepartureLocationCubit>()
+                      .read<ArrivalLocationCubit>()
                       .updateDepartureLocation(cityName: query);
                 },
                 textEditingController: searchController,
               ),
               const SizedBox(height: 20),
-              BlocBuilder<DepartureLocationCubit, DepartureLocationState>(
-                builder: (BuildContext context, DepartureLocationState state) {
+              BlocBuilder<ArrivalLocationCubit, ArrivalLocationState>(
+                builder: (BuildContext context, ArrivalLocationState state) {
                   return SearchResultsWidget(locationList: state.locationsList);
                 },
               )
