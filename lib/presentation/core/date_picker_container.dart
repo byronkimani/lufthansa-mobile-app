@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:lufthansa/business_logic/cubits/booking_details_cubit.dart';
 
 class DatePickerContainer extends StatefulWidget {
   const DatePickerContainer({
@@ -32,16 +29,16 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
           firstDate: DateTime.now(),
           lastDate: DateTime(now.year + 10),
         );
-        if (selectedDate != null) {
-          if (widget.isFrom) {
-            context.read<BookingDetailsCubit>().updateFromDate(
-                  fromDate: DateFormat('dd MM yyyy').format(selectedDate),
-                );
-          }
-          context.read<BookingDetailsCubit>().updateToDate(
-                toDate: DateFormat('dd MM yyyy').format(selectedDate),
-              );
-        }
+        // if (selectedDate != null) {
+        //   if (widget.isFrom) {
+        //     context.read<DepartureLocationCubit>().updateFromDate(
+        //           fromDate: DateFormat('dd MM yyyy').format(selectedDate),
+        //         );
+        //   }
+        //   context.read<DepartureLocationCubit>().updateToDate(
+        //         toDate: DateFormat('dd MM yyyy').format(selectedDate),
+        //       );
+        // }
       },
       behavior: HitTestBehavior.opaque,
       child: Container(

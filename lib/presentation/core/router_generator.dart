@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:lufthansa/data/constants/routes.dart';
 import 'package:lufthansa/presentation/core/page_not_found.dart';
-import 'package:lufthansa/presentation/homepage/page/home_page.dart';
+import 'package:lufthansa/presentation/departure/page/departure_page.dart';
+import 'package:lufthansa/presentation/welcome_page/page/welcome_page.dart';
 
 class RouterGenerator {
   Route<dynamic> onGenerateRoute(RouteSettings? routeSettings) {
     switch (routeSettings?.name) {
-      case homepageRoute:
-        return MaterialPageRoute<HomePage>(
-          builder: (BuildContext context) => const HomePage(),
+      case welcomePageRoute:
+        return MaterialPageRoute<WelcomePage>(
+          builder: (BuildContext context) => const WelcomePage(),
+        );
+
+      case departurePageRoute:
+        return MaterialPageRoute<DeparturePage>(
+          builder: (BuildContext context) => const DeparturePage(),
         );
 
       default:

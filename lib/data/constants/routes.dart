@@ -1,2 +1,2 @@
 const String welcomePageRoute = '/welcomePageRoute';
-const String homepageRoute = '/homepageRoute';
+const String departurePageRoute = '/departurePageRoute';

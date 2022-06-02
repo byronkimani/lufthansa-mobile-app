@@ -21,3 +21,10 @@ bool checkTokenValidity({required BuildContext context}) {
     return false;
   }
 }
+
+Future<void> refreshToken({required BuildContext context}) async {
+  final bool requiresRefresh = checkTokenValidity(context: context);
+  if (requiresRefresh) {
+   await context.read<AuthTokenCubit>().getAuthToken();
+  }
+}
