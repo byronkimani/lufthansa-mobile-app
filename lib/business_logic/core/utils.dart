@@ -13,8 +13,8 @@ String getInitialDate({required bool isFrom}) {
 // checks if authToken stored in state is valid
 bool checkTokenValidity({required BuildContext context}) {
   final DateTime now = DateTime.now();
-  final DateTime? tokenExpiryTime =
-      DateTime.tryParse(context.read<AuthTokenCubit>().state.expiryTime);
+  final String expiryTime = context.read<AuthTokenCubit>().state.expiryTime;
+  final DateTime? tokenExpiryTime = DateTime.tryParse(expiryTime);
   if (now.isBefore(tokenExpiryTime ?? now.subtract(const Duration(days: 1)))) {
     return true;
   } else {
@@ -25,6 +25,6 @@ bool checkTokenValidity({required BuildContext context}) {
 Future<void> refreshToken({required BuildContext context}) async {
   final bool requiresRefresh = checkTokenValidity(context: context);
   if (requiresRefresh) {
-   await context.read<AuthTokenCubit>().getAuthToken();
+    await context.read<AuthTokenCubit>().getAuthToken();
   }
 }

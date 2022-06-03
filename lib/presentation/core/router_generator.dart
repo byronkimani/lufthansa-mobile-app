@@ -3,6 +3,7 @@ import 'package:lufthansa/data/constants/routes.dart';
 import 'package:lufthansa/presentation/arrival/page/arrival_page.dart';
 import 'package:lufthansa/presentation/core/page_not_found.dart';
 import 'package:lufthansa/presentation/departure/page/departure_page.dart';
+import 'package:lufthansa/presentation/display_flights/display_flights_page.dart';
 import 'package:lufthansa/presentation/welcome_page/page/welcome_page.dart';
 
 class RouterGenerator {
@@ -21,6 +22,11 @@ class RouterGenerator {
       case arrivalPageRoute:
         return MaterialPageRoute<ArrivalPage>(
           builder: (BuildContext context) => const ArrivalPage(),
+        );
+
+      case displayFlightsRoute:
+        return MaterialPageRoute<DisplayFlightsPage>(
+          builder: (BuildContext context) => const DisplayFlightsPage(),
         );
 
       default:

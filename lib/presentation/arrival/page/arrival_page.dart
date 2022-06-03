@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lufthansa/business_logic/cubits/arrival_location_cubit.dart';
 import 'package:lufthansa/data/constants/asset_strings.dart';
 import 'package:lufthansa/data/constants/routes.dart';
-import 'package:lufthansa/data/models/location.dart';
 import 'package:lufthansa/presentation/core/loading_indicator.dart';
 import 'package:lufthansa/presentation/departure/widgets/search_results_widget.dart';
 
@@ -35,7 +34,7 @@ class _ArrivalPageState extends State<ArrivalPage> {
             return SizedBox(
               width: MediaQuery.of(context).size.width * 0.6,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   Navigator.of(context).pushNamed(displayFlightsRoute);
                 },
                 child: const Text('Next'),
@@ -85,9 +84,6 @@ class _ArrivalPageState extends State<ArrivalPage> {
               const SizedBox(height: 20),
               BlocBuilder<ArrivalLocationCubit, ArrivalLocationState>(
                 builder: (BuildContext context, ArrivalLocationState state) {
-                  final List<Location> locationList = state.locationsList;
-
-                  print(locationList);
                   if (!state.isLoading) {
                     if (state.noLocationsFound) {
                       return Container(
@@ -100,8 +96,6 @@ class _ArrivalPageState extends State<ArrivalPage> {
                     if (state.locationsList.isEmpty) {
                       return const SizedBox();
                     }
-                    print('here');
-                    print(state.locationsList);
 
                     return SearchResultsWidget(
                       textEditingController: searchController!,

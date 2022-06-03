@@ -1,6 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:lufthansa/business_logic/core/utils.dart';
+import 'package:lufthansa/business_logic/cubits/auth_token_cubit.dart';
 import 'package:lufthansa/data/constants/constants.dart';
 import 'package:lufthansa/data/models/auth_token.dart';
+import 'package:lufthansa/data/models/flight.dart';
 import 'package:lufthansa/data/models/location.dart';
 
 class DataApiClient {
@@ -61,9 +67,41 @@ class DataApiClient {
     return <Location>[];
   }
 
-  Future<void> fetchFlights({
+  Future<List<Flight>> fetchFlights({
     required String origin,
     required String destination,
-    
-  }) async {}
+    required BuildContext context,
+  }) async {
+    refreshToken(context: context);
+    final String token = context.read<AuthTokenCubit>().state.authToken;
+    late Response<dynamic> response;
+    final String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final Dio dio = Dio();
+    dio.options = BaseOptions(
+      queryParameters: <String, dynamic>{
+        'serviceType': 'passenger',
+        'limit': 20,
+        'offset': 0
+      },
+      baseUrl: 'https://api.lufthansa.com/',
+      headers: <String, dynamic>{'Authorization': 'Bearer $token'},
+    );
+
+    try {
+      response = await dio
+          .get('v1/operations/flightstatus/route/$origin/$destination/$date');
+      if (response.data != null) {
+        final List<Flight> flightsList = <Flight>[];
+        final List<dynamic> data =
+            response.data['FlightStatusResource']['Flights']['Flight'];
+        for (dynamic flight in data) {
+          flightsList.add(Flight.fromJson(flight));
+        }
+        return flightsList;
+      }
+    } catch (e) {
+      return <Flight>[];
+    }
+    return <Flight>[];
+  }
 }

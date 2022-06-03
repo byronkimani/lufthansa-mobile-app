@@ -25,7 +25,6 @@ class ArrivalLocationCubit extends Cubit<ArrivalLocationState> {
     emit(state.copyWith(isLoading: true, noLocationsFound: false));
     final List<Location> locationsList =
         await DataApiClient().SearchByCityName(query: cityName);
-    print(locationsList);
     if (locationsList.isEmpty) {
       emit(state.copyWith(noLocationsFound: true));
     }

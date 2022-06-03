@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lufthansa/business_logic/cubits/auth_token_cubit.dart';
 import 'package:lufthansa/data/constants/routes.dart';
 
 import '../../../data/constants/asset_strings.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
+
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) async {
+      await context.read<AuthTokenCubit>().getAuthToken();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

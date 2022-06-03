@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lufthansa/business_logic/cubits/arrival_location_cubit.dart';
 import 'package:lufthansa/business_logic/cubits/auth_token_cubit.dart';
+import 'package:lufthansa/business_logic/cubits/available_flights_cubit.dart';
 import 'package:lufthansa/business_logic/cubits/departure_location_cubit.dart';
 import 'package:lufthansa/presentation/core/router_generator.dart';
 import 'package:lufthansa/presentation/core/theme_data.dart';
@@ -26,6 +27,9 @@ class AppWidget extends StatelessWidget {
         ),
         BlocProvider<ArrivalLocationCubit>(
           create: (BuildContext context) => ArrivalLocationCubit(),
+        ),
+        BlocProvider<AvailableFlightsCubit>(
+          create: (BuildContext context) => AvailableFlightsCubit(),
         ),
       ],
       child: Builder(
