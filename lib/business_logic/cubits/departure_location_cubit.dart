@@ -10,15 +10,18 @@ class DepartureLocationCubit extends Cubit<DepartureLocationState> {
       : super(
           // initial values
           const DepartureLocationState(
-            selectedLocation: Location(airport: '', code: '', country: ''),
+            selectedLocation: null,
             locationsList: <Location>[],
             isLoading: false,
             noLocationsFound: false,
           ),
         );
+  void updateSelectedLocation({required Location selectedLocation}) {
+    emit(state.copyWith(selectedLocation: selectedLocation));
+  }
 
-  Future<void> updateDepartureLocation({required String cityName}) async {
-    emit(state.copyWith(isLoading: true));
+  Future<void> updateDepartureLocationList({required String cityName}) async {
+    emit(state.copyWith(isLoading: true, noLocationsFound: false));
     final List<Location> locationsList =
         await DataApiClient().SearchByCityName(query: cityName);
     if (locationsList.isEmpty) {

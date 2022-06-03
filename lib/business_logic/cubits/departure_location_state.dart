@@ -8,13 +8,13 @@ class DepartureLocationState extends Equatable {
     required this.noLocationsFound,
   });
 
-  final Location selectedLocation;
+  final Location? selectedLocation;
   final List<Location> locationsList;
   final bool isLoading;
   final bool noLocationsFound;
 
   @override
-  List<Object> get props => <Object>[
+  List<Object?> get props => <Object?>[
         selectedLocation,
         locationsList,
         isLoading,

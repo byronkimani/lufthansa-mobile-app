@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lufthansa/business_logic/cubits/arrival_location_cubit.dart';
 import 'package:lufthansa/data/constants/asset_strings.dart';
+import 'package:lufthansa/data/constants/routes.dart';
+import 'package:lufthansa/data/models/location.dart';
 import 'package:lufthansa/presentation/core/loading_indicator.dart';
 import 'package:lufthansa/presentation/departure/widgets/search_results_widget.dart';
 
@@ -26,6 +28,24 @@ class _ArrivalPageState extends State<ArrivalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton:
+          BlocBuilder<ArrivalLocationCubit, ArrivalLocationState>(
+        builder: (BuildContext context, ArrivalLocationState state) {
+          if (state.selectedLocation != null) {
+            return SizedBox(
+              width: MediaQuery.of(context).size.width * 0.6,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(displayFlightsRoute);
+                },
+                child: const Text('Next'),
+              ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        },
+      ),
       body: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
@@ -38,7 +58,7 @@ class _ArrivalPageState extends State<ArrivalPage> {
               ),
               const SizedBox(height: 20),
               const Text(
-                'What is your preferred departure destination?',
+                'What is your preferred arrival destination?',
                 style: TextStyle(fontSize: 18),
                 textAlign: TextAlign.center,
               ),
@@ -49,7 +69,7 @@ class _ArrivalPageState extends State<ArrivalPage> {
                   onPressed: () async {
                     await context
                         .read<ArrivalLocationCubit>()
-                        .updateDepartureLocation(
+                        .updateDepartureLocationList(
                           cityName: searchController!.text,
                         );
                   },
@@ -58,13 +78,16 @@ class _ArrivalPageState extends State<ArrivalPage> {
                 onFieldSubmitted: (String query) async {
                   await context
                       .read<ArrivalLocationCubit>()
-                      .updateDepartureLocation(cityName: query);
+                      .updateDepartureLocationList(cityName: query);
                 },
                 textEditingController: searchController,
               ),
               const SizedBox(height: 20),
               BlocBuilder<ArrivalLocationCubit, ArrivalLocationState>(
                 builder: (BuildContext context, ArrivalLocationState state) {
+                  final List<Location> locationList = state.locationsList;
+
+                  print(locationList);
                   if (!state.isLoading) {
                     if (state.noLocationsFound) {
                       return Container(
@@ -74,8 +97,16 @@ class _ArrivalPageState extends State<ArrivalPage> {
                         ),
                       );
                     }
+                    if (state.locationsList.isEmpty) {
+                      return const SizedBox();
+                    }
+                    print('here');
+                    print(state.locationsList);
+
                     return SearchResultsWidget(
-                      locationList: state.locationsList,
+                      textEditingController: searchController!,
+                      locationsList: state.locationsList,
+                      isDeparture: false,
                     );
                   } else {
                     return const SizedBox(

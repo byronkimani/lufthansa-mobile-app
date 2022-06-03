@@ -60,4 +60,10 @@ class DataApiClient {
     }
     return <Location>[];
   }
+
+  Future<void> fetchFlights({
+    required String origin,
+    required String destination,
+    
+  }) async {}
 }

@@ -13,7 +13,7 @@ Location _$LocationFromJson(Map<String, dynamic> json) => Location(
     );
 
 Map<String, dynamic> _$LocationToJson(Location instance) => <String, dynamic>{
-      'code': instance.code,
       'airport': instance.airport,
+      'code': instance.code,
       'country': instance.country,
     };

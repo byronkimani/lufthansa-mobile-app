@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lufthansa/business_logic/cubits/departure_location_cubit.dart';
 import 'package:lufthansa/data/constants/asset_strings.dart';
+import 'package:lufthansa/data/constants/routes.dart';
 import 'package:lufthansa/presentation/core/custom_textfield.dart';
 import 'package:lufthansa/presentation/core/loading_indicator.dart';
 import 'package:lufthansa/presentation/departure/widgets/search_results_widget.dart';
@@ -23,8 +24,31 @@ class _DeparturePageState extends State<DeparturePage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton:
+          BlocBuilder<DepartureLocationCubit, DepartureLocationState>(
+        builder: (BuildContext context, DepartureLocationState state) {
+          if (state.selectedLocation != null) {
+            return SizedBox(
+              width: MediaQuery.of(context).size.width * 0.6,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(arrivalPageRoute);
+                },
+                child: const Text('Next'),
+              ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        },
+      ),
       body: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
@@ -48,7 +72,7 @@ class _DeparturePageState extends State<DeparturePage> {
                   onPressed: () async {
                     await context
                         .read<DepartureLocationCubit>()
-                        .updateDepartureLocation(
+                        .updateDepartureLocationList(
                           cityName: searchController!.text,
                         );
                   },
@@ -57,7 +81,7 @@ class _DeparturePageState extends State<DeparturePage> {
                 onFieldSubmitted: (String query) async {
                   await context
                       .read<DepartureLocationCubit>()
-                      .updateDepartureLocation(cityName: query);
+                      .updateDepartureLocationList(cityName: query);
                 },
                 textEditingController: searchController,
               ),
@@ -74,7 +98,9 @@ class _DeparturePageState extends State<DeparturePage> {
                       );
                     }
                     return SearchResultsWidget(
-                      locationList: state.locationsList,
+                      textEditingController: searchController!,
+                      locationsList: state.locationsList,
+                      isDeparture: true,
                     );
                   } else {
                     return const SizedBox(
