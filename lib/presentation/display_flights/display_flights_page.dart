@@ -56,9 +56,10 @@ class _DisplayFlightsPageState extends State<DisplayFlightsPage> {
               const Text(
                 'Tap on any card to view it on the map',
                 style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold),
+                  fontSize: 14,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
                 textAlign: TextAlign.center,
               ),
               BlocBuilder<AvailableFlightsCubit, AvailableFlightsState>(
