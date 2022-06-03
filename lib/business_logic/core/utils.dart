@@ -28,3 +28,9 @@ Future<void> refreshToken({required BuildContext context}) async {
     await context.read<AuthTokenCubit>().getAuthToken();
   }
 }
+
+// format flight date time into more readable format
+// 03 May 09:42 
+String formatDate(String date) {
+  return DateFormat('dd/MMM - kk:mm').format(DateTime.parse(date));
+}
